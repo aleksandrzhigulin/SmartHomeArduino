@@ -3,6 +3,7 @@
 #define DHTPIN 999999 // номер пина для датчика влажности(DHT11)(Заглушка)
 
 DHT dht(DHITPIN, DHT11);
+bool systemIsActive = false;
 
 void setup() {
   Serial.begin(9600);
@@ -16,7 +17,7 @@ void loop() {
   float humidity = dht.readHumidity();
   float temperature = dht.readTemperature();
   // Heat Index по Цельсию
-  float hic = dht.computeHeatIndex(t, h, false);
+  float hic = dht.computeHeatIndex(temperature, humidity, false);
   if (isnan(temperature) || isnan(humidity) || isnan(hic)) {  // Проверка ошибок считывания
     Serial.println("Ошибка считывания с датчика DHT11");
     return;
